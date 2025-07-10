@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IoT Devices</title>
+</head>
+<body>
+    <h1>Устройства</h1>
+    <ul>
+        {% for entry in device_data %}
+            <li>
+                <strong>{{ entry.device.name }} ({{ entry.device.ip_address }})</strong><br>
+                {% if entry.data.error %}
+                    Ошибка: {{ entry.data.error }}
+                {% else %}
+                    Температура: {{ entry.data.temperature }}°C<br>
+                    Давление: {{ entry.data.pressure }} hPa
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

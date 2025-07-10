@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мониторинг давления и температуры</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            color: #212121;
+            background: url("{% static 'monitor/1.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+        }
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .legend {
+            margin-bottom: 20px;
+            text-align: left; /* или center/right — на твой вкус */
+        }
+        .legend div {
+            margin: 5px 0;
+        }
+        .status-ok    { color: #0f0; }
+        .status-warn  { color: #ff0; }
+        .status-error { color: #f00; }
+        .status-notable { color: #808080; }
+
+        .block {
+            text-align: center;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+            display: inline-block;
+            vertical-align: top;
+            width: 280px;
+        }
+        .bs > .block {
+            width: 200px;            /* Фиксированная ширина каждого подъезда */
+        }
+        .bs-wrapper {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 5px;
+            padding: 10px;
+            display: inline-block;
+            width: 300px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .bs-title {
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .bs {
+            display: flex;
+            gap: 5px;
+        }
+
+        .floor {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .title_ip{
+            text-align: center;
+            font-size: 10px;
+		}
+        .naked-link {
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            display: block;            /* чтобы вести себя как div */
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .ok {
+            background-color: #E8F5E9;
+            border: 1px solid #4CAF50;
+            color: #2E7D32;
+        }
+        .warn {
+            background-color: #FFEBEE;
+            border: 1px solid #F44336;
+            color: #C62828;
+        }
+        .error {
+            background-color: #FFF8E1;
+            border: 1px solid #FFC107;
+            color: #FF6F00;
+        }
+        .netral {
+            background-color: #ECEFF1;
+            border: 1px solid #B0BEC5;
+            color: #455A64;
+        }
+        .not_able { background-color: #003300; border: 2px solid #686868; }
+
+        .side-image {
+            max-width: 1000px;
+            border-radius: 10px;
+            border: 2px solid #444;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="overlay">
+    <h1> Панель мониторинга ЖК "Взлетка"</h1>
+    <div class="bs-wrapper">
+        <div class="bs-title">
+            <h3>БС 1</h3>
+        </div>
+
+        <div class="block bs">
+            <div class="block netral">
+                <h4>Подъезд 1</h4>
+                {% with device=controllers_dict.BS1_entrance1_floor3 %}
+                    <a id="BS1_entrance1_floor3" href="http://{{ device.ip }}" class="naked-link floor ok">
+                    {{ device.name }} <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                    </a>
+                {% endwith %}
+                {% with device=controllers_dict.BS1_entrance1_floor2 %}
+                    <a id="BS1_entrance1_floor2" href="http://{{ device.ip }}" class="naked-link floor ok">
+                    {{ device.name }} <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                    </a>
+                {% endwith %}
+                {% with device=controllers_dict.BS1_entrance1_floor1 %}
+                    <a id="BS1_entrance1_floor1" href="http://{{ device.ip }}" class="naked-link floor ok">
+                    {{ device.name }} <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                    </a>
+                {% endwith %}
+            </div>
+            <div class="block netral">
+                <h4>Подъезд 2</h4>
+                <a id="BS1_entrance2_floor9" href="http://192.168.19.234" class="naked-link floor warn">
+                    9 Этаж <br>🌡️ t: 85°C<br>💧 P: 0.5 Атм
+                </a>
+                <a id="BS1_entrance2_floor5" href="http://192.168.19.234" class="naked-link floor ok">
+                    5 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+                <a id="BS1_entrance2_floor0" href="http://192.168.19.234" class="naked-link floor ok">
+                    1 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="bs-wrapper">
+        <div class="bs-title">
+            <h3>БС 2</h3>
+        </div>
+
+        <div class="block bs">
+            <div class="block netral">
+                <h4>Подъезд 1</h4>
+                <a id="BS2_entrance1_floor9" href="http://192.168.19.234" class="naked-link floor warn">
+                    9 Этаж <br>🌡️ t: 85°C<br>💧 P: 0.5 Атм
+                </a>
+                <a id="BS2_entrance1_floor5" href="http://192.168.19.234" class="naked-link floor ok">
+                    5 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+                <a id="BS2_entrance1_floor0" href="http://192.168.19.234" class="naked-link floor ok">
+                    1 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+            </div>
+            <div class="block netral">
+                <h4>Подъезд 2</h4>
+                <a id="BS2_entrance2_floor9" href="http://192.168.19.234" class="naked-link floor warn">
+                    9 Этаж <br>🌡️ t: 85°C<br>💧 P: 0.5 Атм
+                </a>
+                <a id="BS2_entrance2_floor5" href="http://192.168.19.234" class="naked-link floor ok">
+                    5 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+                <a id="BS2_entrance2_floor0" href="http://192.168.19.234" class="naked-link floor ok">
+                    1 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+
+            </div>
+        </div>
+    </div>
+    <div class="bs-wrapper">
+        <div class="bs-title">
+            <h3>БС 3</h3>
+        </div>
+
+        <div class="block bs">
+            <div class="block netral">
+                <h4>Подъезд 1</h4>
+                <a id="BS3_entrance1_floor9" href="http://192.168.19.234" class="naked-link floor warn">
+                    9 Этаж <br>🌡️ t: 85°C<br>💧 P: 0.5 Атм
+                </a>
+                <a id="BS3_entrance1_floor5" href="http://192.168.19.234" class="naked-link floor ok">
+                    5 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+                <a id="BS3_entrance1_floor0" href="http://192.168.19.234" class="naked-link floor ok">
+                    1 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+            </div>
+            <div class="block netral">
+                <h4>Подъезд 2</h4>
+                <a id="BS3_entrance2_floor9" href="http://192.168.19.234" class="naked-link floor warn">
+                    9 Этаж <br>🌡️ t: 85°C<br>💧 P: 0.5 Атм
+                </a>
+                <a id="BS3_entrance2_floor5" href="http://192.168.19.234" class="naked-link floor ok">
+                    5 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+                <a id="BS3_entrance2_floor0" href="http://192.168.19.234" class="naked-link floor ok">
+                    1 Этаж <br>🌡️ t: 45°C<br>💧 P: 4.5 Атм
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <br>
+        <div><span class="floor ok">Зелёный</span> — исправно</div> <br>
+        <div><span class="floor error">Жёлтый</span> — сетевая ошибка</div> <br>
+        <div><span class="floor warn">Красный</span> — ошибка давления/температуры</div> <br>
+        <div><span class="floor netral">Серый</span> — контроллер не добавлен</div> <br>
+    </div>
+    </div>
+    <script>
+        const statusClasses = {
+            ok: "floor ok",
+            warn: "floor warn",
+            error: "floor error",
+            not_able: "floor not_able",
+            netral: "floor netral"
+        };
+
+        async function fetchStatus() {
+            try {
+                const response = await fetch('/api/status/');
+                const data = await response.json();
+
+                Object.entries(data).forEach(([id, info]) => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        // Обновим текст
+                        el.innerHTML = `${info.floor} <br>🌡️ t: ${info.temperature}°C<br>💧 P: ${info.pressure} Атм`;
+
+                        // Обновим класс
+                        el.className = statusClasses[info.status] || "floor";
+                    }
+                });
+            } catch (error) {
+                console.error("Ошибка при получении данных:", error);
+            }
+        }
+
+        setInterval(fetchStatus, 5000); // каждые 5 секунд
+        fetchStatus(); // сразу после загрузки
+    </script>
+
+</body>
+</html>
