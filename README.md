@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-Hellow World!!!
+> [!INFO] ## Monitoring of pressure and temperature in boilers in the apartment comples.
+> - This project has one Server and several microcontrollers.
+> - Server - Django 
+> - Microcontrollers - ESP32(WT32-ETH01)
+> - Server sent a GET request and microcontrollers  
 
-What is cool thing!
 
-It`s simple prodject to try Django with API
-
-ddddddd
-
-=================================================
-
->>>>>>> 9e29b63c80c29143518404275ed71f6339c9bad6
+> - [Документация](https://git-scm.com/doc)
