@@ -1,23 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>IoT Devices</title>
+  <meta charset="UTF-8">
+  <title>График в блоке</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .chart-container {
+      width: 600px;
+      height: 400px;
+      margin: 10px auto;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
-    <h1>Устройства</h1>
-    <ul>
-        {% for entry in device_data %}
-            <li>
-                <strong>{{ entry.device.name }} ({{ entry.device.ip_address }})</strong><br>
-                {% if entry.data.error %}
-                    Ошибка: {{ entry.data.error }}
-                {% else %}
-                    Температура: {{ entry.data.temperature }}°C<br>
-                    Давление: {{ entry.data.pressure }} hPa
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+  <div class="chart-container">
+    <h3 style="text-align: center;">График температуры</h3>
+    <canvas id="tempChart"></canvas>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('tempChart').getContext('2d');
+    const tempChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['16.07.25', '17.07.25', '18.07.25', '19.07.25', '20.07.25', '21.07.25', '22.07.25'],
+        datasets: [{
+          data: [21, 22, 23, 24, 20, 21, 23],
+          borderColor: 'rgba(54, 162, 235, 1)',
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderWidth: 2,
+          tension: 0.4,
+          fill: true,
+          label: 'Температура, °C'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  </script>
 </body>
 </html>
