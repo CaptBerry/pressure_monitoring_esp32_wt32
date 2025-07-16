@@ -4,7 +4,7 @@ import requests
 
 from .models import Microcontroller
 
-# Глобальный кэш с данными МК
+# global  кэш с данными МК
 controller_data_cache = {}
 
 def fetch_data():
